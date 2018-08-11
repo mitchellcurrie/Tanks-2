@@ -12,23 +12,27 @@ namespace Complete
         public float m_SplitScreenZoomSize = 9f;        // Set the level of zoom on the targets when in splitscreen mode.
         public float m_SplitScreenDistance = 55f;       // Set the distance required between the targets to enable split screen mode.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
-        [HideInInspector] public bool m_SplitScreenEnabled;    // Keeps track of whether splitscreen mode is enabled
+        
 
 
         private Camera m_Camera;                        // Used for referencing the camera.
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
+        private bool m_SplitScreenEnabled;              // Keeps track of whether splitscreen mode is enabled
+        private bool m_CamerasInSplitScreenMode;        // Keeps track of whether the cameras are currently set in split screen mode
         
 
         private void Awake ()
         {
             m_Camera = GetComponentInChildren<Camera> ();
+            m_CamerasInSplitScreenMode = false;
         }
 
 
         private void FixedUpdate ()
         {
+            // Check the distance between the targets to decide whether to enable split screen mode.
             CheckDistanceBetweenTargets();
 
             // Move the camera towards a desired position.
@@ -37,6 +41,7 @@ namespace Complete
             // Change the size of the camera based.
             Zoom ();
 
+            // Adjust the viewport rect of the cameras to transition in and out of split screen mode.
             AdjustCameraSizes();
         }
 
@@ -107,43 +112,51 @@ namespace Complete
 
         private void CheckDistanceBetweenTargets()
         { 
-            Debug.Log("Function called");
-
             // Check there are 2 targets / tanks
             if (m_Targets.Length == 2)
             {
                 // Find the distance between the tanks 
                 float Distance = Vector3.Magnitude(m_Targets[1].position - m_Targets[0].position);
 
-                Debug.Log(Distance);
-
+                // Enable split screen mode if the distance is greater than the defined distance, otherwise disable.
                 m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
             }  
         } 
 
         private void AdjustCameraSizes()
         {
-           if (m_SplitScreenEnabled)
+           // If split screen mode is enabled and cameras are not currently set in split screen mode 
+           if (m_SplitScreenEnabled && !m_CamerasInSplitScreenMode)
            {
+                // Adjust the viewport rect of the cameras 
+                // Player 1 cam to the left of the screen
                 if (m_PlayerToFollow == 1)
                 {
                     m_Camera.rect = new Rect(0,0,0.5f,1);
                 }
-
+                // Activate Player 2 cam and set to the right of the screen
                 else if (m_PlayerToFollow == 2)
                 {
                     m_Camera.gameObject.SetActive(true);
                     m_Camera.rect = new Rect(0.5f,0,1,1);
                 }
+                // Set boolean to true to ensure new rects aren't created each frame, only on transitions between standard and split scren modes.
+                m_CamerasInSplitScreenMode = true;
            }
-           else
+           // If split screen mode is disabled and cameras are currently set in split screen mode 
+           else if (!m_SplitScreenEnabled && m_CamerasInSplitScreenMode)
            {
+                // Set the viewport rect back to full screen
+                m_Camera.rect = new Rect(0,0,1,1);
+                
+                // Disable the second camera
                 if (m_PlayerToFollow == 2)
                 {
                     m_Camera.gameObject.SetActive(false);
                 }
 
-                m_Camera.rect = new Rect(0,0,1,1);
+                // Set boolean back to false
+                m_CamerasInSplitScreenMode = false;
            }
             
           
