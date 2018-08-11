@@ -22,8 +22,15 @@ namespace Complete
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+        private ChangeColour [] m_TankColourChangers; // The colour changer scripts on the tanks used for the customisation screen.
+        private GameObject m_CustomiseTankUI;  
 
 
+        private void Awake() 
+        {
+            m_TankColourChangers = FindObjectsOfType<ChangeColour>();
+            m_CustomiseTankUI = GameObject.Find("CustomiseTankUI");
+        }
         private void Start()
         {
             CustomiseTanks();  
@@ -31,19 +38,32 @@ namespace Complete
             //StartGame();
         }
 
-        private void StartGame()
+        public void StartGame()
         {
+            Debug.Log("Start game function");
              // Create the delays so they only have to be made once.
             m_StartWait = new WaitForSeconds (m_StartDelay);
             m_EndWait = new WaitForSeconds (m_EndDelay);
 
+            SetTankColors();
             SpawnAllTanks();
             SetCameraTargets();
 
+            m_CustomiseTankUI.gameObject.SetActive(false);
+
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
+        }        
+        private void SetTankColors()
+        {
+            Debug.Log("Set Tank colors");
+            
+            foreach (ChangeColour colChanger in m_TankColourChangers)
+            {
+                 m_Tanks[colChanger.m_PlayerNumber - 1].m_PlayerColor = colChanger.m_TankColor;
+                 Debug.Log("For Each loop");
+            }
         }
-        
         private void CustomiseTanks()
         {
            //   Time.timeScale = 0;

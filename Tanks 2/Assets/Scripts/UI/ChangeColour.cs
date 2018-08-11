@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class ChangeColour : MonoBehaviour {
 	public int m_PlayerNumber;
+	public Color m_TankColor;
+
 	private float m_hue;
 	private string m_AxisName;
 	private MeshRenderer[] m_Renderers;
-	private Color m_TankColor;
+	
+
+	private GameManager m_GameManager;
 
 	// Use this for initialization
 	
@@ -16,6 +20,7 @@ public class ChangeColour : MonoBehaviour {
 	{
 		// Get all of the renderers of the tank.
 		m_Renderers = GetComponentsInChildren<MeshRenderer> ();
+		m_GameManager = FindObjectOfType<GameManager>();
 	}
 	void Start () 
 	{
