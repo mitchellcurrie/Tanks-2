@@ -118,24 +118,6 @@ namespace Complete
                 Debug.Log(Distance);
 
                 m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
-                /* 
-                if (Distance > m_CameraControls[0].m_SplitScreenDistance)
-                {
-                    m_CameraControls[1].gameObject.SetActive(true);
-
-                    m_CameraControls[0].m_SplitScreenEnabled = true;
-                    m_CameraControl2.m_SplitScreenEnabled = true;
-                }
-                else
-                {
-                    m_CameraControl1.m_SplitScreenEnabled = false;
-                    m_CameraControl2.m_SplitScreenEnabled = false;
-                    
-                    m_CameraControl2.gameObject.SetActive(false);                   
-                }
-                */
-                // Enable split screen mode if the distance is greater than the defined distance, otherwise disable split screen mode.
-                
             }  
         } 
 
@@ -150,11 +132,17 @@ namespace Complete
 
                 else if (m_PlayerToFollow == 2)
                 {
+                    m_Camera.gameObject.SetActive(true);
                     m_Camera.rect = new Rect(0.5f,0,1,1);
                 }
            }
            else
            {
+                if (m_PlayerToFollow == 2)
+                {
+                    m_Camera.gameObject.SetActive(false);
+                }
+
                 m_Camera.rect = new Rect(0,0,1,1);
            }
             
