@@ -9,27 +9,28 @@ namespace Complete
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
 
         public int m_PlayerToFollow;                    // Reference to the player to be followed in split screen mode.
+        public float m_SplitScreenZoomSize = 9f;        // Set the level of zoom on the targets when in splitscreen mode.
+        public float m_SplitScreenDistance = 55f;       // Set the distance required between the targets to enable split screen mode.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
+        [HideInInspector] public bool m_SplitScreenEnabled;    // Keeps track of whether splitscreen mode is enabled
 
 
         private Camera m_Camera;                        // Used for referencing the camera.
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
-
-        private bool m_SplitScreenEnabled;              // Keeps track of whether splitscreen mode is enabled
-
-
+        
 
         private void Awake ()
         {
             m_Camera = GetComponentInChildren<Camera> ();
-            m_SplitScreenEnabled = true;
         }
 
 
         private void FixedUpdate ()
         {
+            CheckDistanceBetweenTargets();
+
             // Move the camera towards a desired position.
             Move ();
 
@@ -102,15 +103,59 @@ namespace Complete
             }
         }
 
+        private void CheckDistanceBetweenTargets()
+        { 
+            Debug.Log("Function called");
+
+            // Check there are 2 targets / tanks
+            if (m_Targets.Length == 2)
+            {
+                // Find the distance between the tanks 
+                float Distance = Vector3.Magnitude(m_Targets[1].position - m_Targets[0].position);
+
+                Debug.Log(Distance);
+
+                m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
+                /* 
+                if (Distance > m_CameraControls[0].m_SplitScreenDistance)
+                {
+                    m_CameraControls[1].gameObject.SetActive(true);
+
+                    m_CameraControls[0].m_SplitScreenEnabled = true;
+                    m_CameraControl2.m_SplitScreenEnabled = true;
+                }
+                else
+                {
+                    m_CameraControl1.m_SplitScreenEnabled = false;
+                    m_CameraControl2.m_SplitScreenEnabled = false;
+                    
+                    m_CameraControl2.gameObject.SetActive(false);                   
+                }
+                */
+                // Enable split screen mode if the distance is greater than the defined distance, otherwise disable split screen mode.
+                
+            }  
+        } 
+
+        private void AdjustCameraSizes()
+        {
+            
+        }
 
         private void Zoom ()
         {
-           // if (m_SplitScreenEnabled)
-           // {
+            // Keep required size at the defined splitscreen zoom size if in splitscreen mode, otherwise find the required size
+            float requiredSize = m_SplitScreenZoomSize;
+            
+            if (!m_SplitScreenEnabled)
+            {
+                 // Find the required size based on the desired position and smoothly transition to that size.
+                requiredSize = FindRequiredSize();
+            }
 
-            // Find the required size based on the desired position and smoothly transition to that size.
-            float requiredSize = FindRequiredSize();
             m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
+
+            //Debug.Log("Required size: " + requiredSize);
         }
 
 
