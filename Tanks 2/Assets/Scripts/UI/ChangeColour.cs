@@ -5,54 +5,50 @@ using UnityEngine.UI;
 
 public class ChangeColour : MonoBehaviour {
 	public int m_PlayerNumber;
-	public Color m_TankColor;
-
-	private float m_hue;
+	
+	[HideInInspector] public Color m_TankColor;
+	private float m_Hue;
 	private string m_AxisName;
 	private MeshRenderer[] m_Renderers;
-	
 
-	private GameManager m_GameManager;
-
-	// Use this for initialization
-	
 	void Awake() 
 	{
 		// Get all of the renderers of the tank.
 		m_Renderers = GetComponentsInChildren<MeshRenderer> ();
-		m_GameManager = FindObjectOfType<GameManager>();
 	}
 	void Start () 
 	{
 		m_AxisName = "Horizontal" + m_PlayerNumber;
+		if (m_PlayerNumber == 1)
+		{
+			m_Hue = 0.6f;
+		}
 	}
-	
-	// Update is called once per frame
 	void FixedUpdate () 
 	{
 		float value = Input.GetAxis (m_AxisName);
 
 		if (value < 0)
 		{
-			m_hue -= 0.005f;
+			m_Hue -= 0.005f;
 		}
 		else if (value > 0)
 		{
-			m_hue += 0.005f;
+			m_Hue += 0.005f;
 		}
 
-		m_hue = Mathf.Clamp(m_hue, 0.0f, 1.0f);
+		m_Hue = Mathf.Clamp(m_Hue, 0.0f, 1.0f);
 
-		if (m_hue == 1.0f)
+		if (m_Hue == 1.0f)
 		{
-			m_hue = 0;
+			m_Hue = 0;
 		}
-		else if (m_hue == 0.0f)
+		else if (m_Hue == 0.0f)
 		{
-			m_hue = 1;
+			m_Hue = 1;
 		}
 
-		m_TankColor = Color.HSVToRGB(m_hue,1,1);
+		m_TankColor = Color.HSVToRGB(m_Hue,1,1);
 
         // Go through all the renderers...
         for (int i = 0; i < m_Renderers.Length; i++)

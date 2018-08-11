@@ -31,16 +31,9 @@ namespace Complete
             m_TankColourChangers = FindObjectsOfType<ChangeColour>();
             m_CustomiseTankUI = GameObject.Find("CustomiseTankUI");
         }
-        private void Start()
-        {
-            CustomiseTanks();  
-
-            //StartGame();
-        }
 
         public void StartGame()
         {
-            Debug.Log("Start game function");
              // Create the delays so they only have to be made once.
             m_StartWait = new WaitForSeconds (m_StartDelay);
             m_EndWait = new WaitForSeconds (m_EndDelay);
@@ -55,22 +48,11 @@ namespace Complete
             StartCoroutine (GameLoop ());
         }        
         private void SetTankColors()
-        {
-            Debug.Log("Set Tank colors");
-            
+        { 
             foreach (ChangeColour colChanger in m_TankColourChangers)
             {
                  m_Tanks[colChanger.m_PlayerNumber - 1].m_PlayerColor = colChanger.m_TankColor;
-                 Debug.Log("For Each loop");
             }
-        }
-        private void CustomiseTanks()
-        {
-           //   Time.timeScale = 0;
-           
-           // string message = "Customise your tank!";
-           // message += "\n\n\n\n\n\n\n\n";
-           // m_MessageText.text = message;
         }
 
         private void SpawnAllTanks()
