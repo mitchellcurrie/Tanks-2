@@ -4,26 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ChangeColour : MonoBehaviour {
-
-	public GameObject Tank1;
-	public GameObject Tank2;
+	public int m_PlayerNumber;
 	private float m_hue;
+	private string m_AxisName;
+	private MeshRenderer[] m_Renderers;
+	private Color m_TankColor;
 
 	// Use this for initialization
 	
 	void Awake() 
 	{
-		
+		// Get all of the renderers of the tank.
+		m_Renderers = GetComponentsInChildren<MeshRenderer> ();
 	}
 	void Start () 
 	{
-		
+		m_AxisName = "Horizontal" + m_PlayerNumber;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-        float value = Input.GetAxis ("Horizontal1");
+		float value = Input.GetAxis (m_AxisName);
 
 		if (value < 0)
 		{
@@ -36,27 +38,22 @@ public class ChangeColour : MonoBehaviour {
 
 		m_hue = Mathf.Clamp(m_hue, 0.0f, 1.0f);
 
-		if (m_hue == 1)
+		if (m_hue == 1.0f)
 		{
 			m_hue = 0;
 		}
-		else if (m_hue == 0)
+		else if (m_hue == 0.0f)
 		{
 			m_hue = 1;
 		}
 
-		Debug.Log(m_hue);
-
-
-		// Get all of the renderers of the tank.
-        MeshRenderer[] renderers = Tank1.GetComponentsInChildren<MeshRenderer> ();
+		m_TankColor = Color.HSVToRGB(m_hue,1,1);
 
         // Go through all the renderers...
-        for (int i = 0; i < renderers.Length; i++)
+        for (int i = 0; i < m_Renderers.Length; i++)
         {
             // ... set their material color to the color specific to this tank.
-            renderers[i].material.color = Color.HSVToRGB(m_hue,1,1);
+            m_Renderers[i].material.color = m_TankColor;
         }
-
 	}
 }
