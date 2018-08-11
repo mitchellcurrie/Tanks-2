@@ -36,6 +36,8 @@ namespace Complete
 
             // Change the size of the camera based.
             Zoom ();
+
+            AdjustCameraSizes();
         }
 
 
@@ -139,7 +141,25 @@ namespace Complete
 
         private void AdjustCameraSizes()
         {
+           if (m_SplitScreenEnabled)
+           {
+                if (m_PlayerToFollow == 1)
+                {
+                    m_Camera.rect = new Rect(0,0,0.5f,1);
+                }
+
+                else if (m_PlayerToFollow == 2)
+                {
+                    m_Camera.rect = new Rect(0.5f,0,1,1);
+                }
+           }
+           else
+           {
+                m_Camera.rect = new Rect(0,0,1,1);
+           }
             
+          
+
         }
 
         private void Zoom ()
