@@ -26,7 +26,14 @@ namespace Complete
 
         private void Start()
         {
-            // Create the delays so they only have to be made once.
+            CustomiseTanks();  
+
+            //StartGame();
+        }
+
+        private void StartGame()
+        {
+             // Create the delays so they only have to be made once.
             m_StartWait = new WaitForSeconds (m_StartDelay);
             m_EndWait = new WaitForSeconds (m_EndDelay);
 
@@ -36,7 +43,15 @@ namespace Complete
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }
-
+        
+        private void CustomiseTanks()
+        {
+           //   Time.timeScale = 0;
+           
+           // string message = "Customise your tank!";
+           // message += "\n\n\n\n\n\n\n\n";
+           // m_MessageText.text = message;
+        }
 
         private void SpawnAllTanks()
         {
