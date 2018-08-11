@@ -7,6 +7,8 @@ namespace Complete
         public float m_DampTime = 0.2f;                 // Approximate time for the camera to refocus.
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
+
+        public int m_PlayerToFollow;                    // Reference to the player to be followed in split screen mode.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
 
 
@@ -15,10 +17,14 @@ namespace Complete
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
 
+        private bool m_SplitScreenEnabled;              // Keeps track of whether splitscreen mode is enabled
+
+
 
         private void Awake ()
         {
             m_Camera = GetComponentInChildren<Camera> ();
+            m_SplitScreenEnabled = true;
         }
 
 
@@ -34,13 +40,21 @@ namespace Complete
 
         private void Move ()
         {
-            // Find the average position of the targets.
-            FindAveragePosition ();
-
+            // If split screen mode is enabled, focus on the assigned target player, otherwise find the average position of all targets
+            if (m_SplitScreenEnabled)
+            {
+                // Find the player position of the assigned target.
+                FindPlayerPosition();
+            }
+            else
+            {
+                // Find the average position of the targets.
+                FindAveragePosition ();
+            }
+            
             // Smoothly transition to that position.
             transform.position = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
         }
-
 
         private void FindAveragePosition ()
         {
@@ -70,9 +84,30 @@ namespace Complete
             m_DesiredPosition = averagePos;
         }
 
+        private void FindPlayerPosition ()
+        {
+            // Go through targets
+            for (int i = 0; i < m_Targets.Length; i++)
+            {
+                // If the target isn't active, go on to the next one.
+                if (!m_Targets[i].gameObject.activeSelf)
+                    continue;
+
+                // If the current target index equals the assigned player to follow (-1 since player 1 is indexed at 0 etc)
+                if (i == m_PlayerToFollow-1)
+                {
+                    // The desired position is the current target's position
+                    m_DesiredPosition = m_Targets[i].position;
+                }    
+            }
+        }
+
 
         private void Zoom ()
         {
+           // if (m_SplitScreenEnabled)
+           // {
+
             // Find the required size based on the desired position and smoothly transition to that size.
             float requiredSize = FindRequiredSize();
             m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
