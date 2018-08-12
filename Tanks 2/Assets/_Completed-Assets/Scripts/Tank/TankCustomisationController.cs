@@ -5,7 +5,7 @@ using UnityEngine;
 public class TankCustomisationController : MonoBehaviour {
 
 	// Use this for initialization
-	private string m_AxisName;
+	private string m_AxisName;							// Keeps track of the axis name for rotating the tank
 	private int m_PlayerNumber;
 	
 	private void Awake() 
