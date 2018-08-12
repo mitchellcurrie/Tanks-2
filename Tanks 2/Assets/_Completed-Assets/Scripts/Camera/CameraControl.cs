@@ -26,6 +26,14 @@ namespace Complete
             m_CamerasInSplitScreenMode = false;
         }
 
+        private void Start ()
+        {
+            // Turn off camera 2 at the start - since splitscreen mode is disabled at the beginning of a game.
+            if (m_PlayerToFollow == 2)
+                {
+                    m_Camera.gameObject.SetActive(false);
+                }
+        }
 
         private void FixedUpdate ()
         {
