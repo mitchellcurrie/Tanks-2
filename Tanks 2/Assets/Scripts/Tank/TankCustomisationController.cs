@@ -15,17 +15,7 @@ public class TankCustomisationController : MonoBehaviour {
 	}
 	void Start () 
 	{
-		int screenPositionXBuffer = 725;
-		int screenHeight = 380;
-
-		if (m_PlayerNumber == 1)
-		{
-			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPositionXBuffer,screenHeight,5));
-		}
-		else 
-		{
-			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - screenPositionXBuffer,screenHeight,5));
-		}
+	
 		// Position the tank gameobjects on the screen.
 		//Vector3 worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(m_PlayerNumber*800 - m_PlayerNumber*100 ,400,5));
  		//gameObject.transform.position = worldPoint;
@@ -43,6 +33,18 @@ public class TankCustomisationController : MonoBehaviour {
 		{
 			gameObject.transform.Rotate(new Vector3(0,1,0), value*3);
 
+		}
+
+		float screenWidthBuffer = 4.7f;
+		float screenHeightBuffer = 2.5f;
+
+		if (m_PlayerNumber == 1)
+		{
+			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / screenWidthBuffer,Screen.height / screenHeightBuffer,5));
+		}
+		else 
+		{
+			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - (Screen.width / screenWidthBuffer),Screen.height / screenHeightBuffer,5));
 		}
 	}
 }
