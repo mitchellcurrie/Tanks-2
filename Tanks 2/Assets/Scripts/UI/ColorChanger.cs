@@ -19,7 +19,7 @@ public class ColorChanger : MonoBehaviour {
 	void Start () 
 	{	
 		// Set the axis name based on the player number.
-		m_AxisName = "Horizontal" + m_PlayerNumber;
+		m_AxisName = "Vertical" + m_PlayerNumber;
 
 		// Change the default hue of player 1 to ensure the default colors of the tanks are different.
 		if (m_PlayerNumber == 1)
