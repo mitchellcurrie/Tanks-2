@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankCustomisationController : MonoBehaviour {
-	
+
 	private string m_RotateAxisName;				// Keeps track of the axis name for rotating the tank
-	private string m_ColorAxisName;						// The axis used by the player, to determine which keys change the color of which tank.
+	private string m_ColorAxisName;					// The axis used by the player, to determine which keys change the color of which tank.
 	public int m_PlayerNumber;						// Keeps track of the player number.
-	[HideInInspector] public Color m_TankColor;		// The tank color that the player will change and is then used to set the tank colors in the game manager.
+	[HideInInspector] public Color m_PlayerColor;	// the player's color chosen in the customisation screen and used for the tank and text colors in the game.
 	private float m_TankColorHue;					// The hue of the tank color that the player changes.
 	private MeshRenderer[] m_Renderers;				// The renderers on each of the tanks used in the customisation screen.
 	
@@ -36,35 +36,37 @@ public class TankCustomisationController : MonoBehaviour {
 		// Get the value from the axis
 		float rotateAxisValue = Input.GetAxis (m_RotateAxisName);
 
-		// If the player is holding down the button on the axis, spin the tank around the y axis.
+		// If the player is holding down either axis button, spin the tank around the y axis.
 		if (rotateAxisValue != 0)
 		{
-			gameObject.transform.Rotate(new Vector3(0,1,0), rotateAxisValue*3);
+			gameObject.transform.Rotate(new Vector3(0,1,0), rotateAxisValue*3);  // *3 added for faster rotation
 		}
 
+		// Set screen buffers for positioning the tanks on the screen
 		float screenWidthBuffer = 4.25f;
 		float screenHeightBuffer = 2.5f;
 
+		// Set the world position of the tanks based on screen positions that take into account the buffer above and the screen dimensions.
 		if (m_PlayerNumber == 1)
 		{
 			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / screenWidthBuffer,Screen.height / screenHeightBuffer,5));
 		}
-		else 
+		else // Player 2
 		{
 			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - (Screen.width / screenWidthBuffer),Screen.height / screenHeightBuffer,5));
 		}
 
 		/////   TANK COLOR    //////
 
-		// Get the value of the axis - determines whether the player is pressing left or right
+		// Get the value of the color axis - determines whether the player is pressing up or down.
 		float colorAxisValue = Input.GetAxis (m_ColorAxisName);
 
-		// If the player is pressing left, decrease the hue.
+		// If the player is pressing down, decrease the hue.
 		if (colorAxisValue < 0)
 		{
 			m_TankColorHue -= 0.005f;
 		}
-		// If the player is pressing right, increase the hue.
+		// If the player is pressing up, increase the hue.
 		else if (colorAxisValue > 0)
 		{
 			m_TankColorHue += 0.005f;
@@ -83,14 +85,14 @@ public class TankCustomisationController : MonoBehaviour {
 			m_TankColorHue = 1;
 		}
 
-		// Convert the HSV color to RGB and store in the tank color member variable.
-		m_TankColor = Color.HSVToRGB(m_TankColorHue,1,1);
+		// Convert the HSV color to RGB and store in the player color member variable.
+		m_PlayerColor = Color.HSVToRGB(m_TankColorHue,1,1);
 
         // Go through all the renderers...
         for (int i = 0; i < m_Renderers.Length; i++)
         {
             // ... set their material color to the color specific to this tank.
-            m_Renderers[i].material.color = m_TankColor;
+            m_Renderers[i].material.color = m_PlayerColor;
         }
 	}
 }

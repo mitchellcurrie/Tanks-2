@@ -28,12 +28,13 @@ namespace Complete
 
         private void Awake() 
         {   
-            // Find the 2 color changer objects and the tank customisation UI and store in member variables.
+            // Find the 2 tank customisation controller objects and the tank customisation UI and store in member variables.
             m_TankControllers = FindObjectsOfType<TankCustomisationController>();
             m_CustomiseTankUI = GameObject.Find("CustomiseTankUI");
         }
 
-        public void StartGame() // Called when start button is clicked
+        // This function is called when start button is clicked in the customisation screen
+        public void StartGame() 
         {
              // Create the delays so they only have to be made once.
             m_StartWait = new WaitForSeconds (m_StartDelay);
@@ -53,10 +54,10 @@ namespace Complete
         }        
         private void SetTankColors()
         { 
-            // Go through each color changer and change the tank's color to that of the color changer, based on the player number.
+            // Go through each color changer and change the tank's color to that of the tank controller, based on the player number.
             foreach (TankCustomisationController tankController in m_TankControllers)
             {
-                 m_Tanks[tankController.m_PlayerNumber - 1].m_PlayerColor = tankController.m_TankColor;
+                 m_Tanks[tankController.m_PlayerNumber - 1].m_PlayerColor = tankController.m_PlayerColor;
             }
         }
 
@@ -89,7 +90,6 @@ namespace Complete
             m_CameraControl2.m_Targets = targets;
         }
 
-
         // This is called from start and will run each phase of the game one after another.
         private IEnumerator GameLoop ()
         {
@@ -116,7 +116,6 @@ namespace Complete
             }
         }
 
-
         private IEnumerator RoundStarting ()
         {
             // As soon as the round starts reset the tanks and make sure they can't move.
@@ -133,7 +132,6 @@ namespace Complete
             // Wait for the specified length of time until yielding control back to the game loop.
             yield return m_StartWait;
         }
-
 
         private IEnumerator RoundPlaying ()
         {

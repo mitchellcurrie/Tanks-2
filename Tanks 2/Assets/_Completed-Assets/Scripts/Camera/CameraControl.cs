@@ -7,14 +7,11 @@ namespace Complete
         public float m_DampTime = 0.2f;                 // Approximate time for the camera to refocus.
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
-
         public int m_PlayerToFollow;                    // Reference to the player to be followed in split screen mode.
         public float m_SplitScreenZoomSize = 9f;        // Set the level of zoom on the targets when in splitscreen mode.
         public float m_SplitScreenDistance = 55f;       // Set the distance required between the targets to enable split screen mode.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
         
-
-
         private Camera m_Camera;                        // Used for referencing the camera.
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
@@ -158,9 +155,6 @@ namespace Complete
                 // Set boolean back to false
                 m_CamerasInSplitScreenMode = false;
            }
-            
-          
-
         }
 
         private void Zoom ()
@@ -216,7 +210,6 @@ namespace Complete
 
             return size;
         }
-
 
         public void SetStartPositionAndSize ()
         {
