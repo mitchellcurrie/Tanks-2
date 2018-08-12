@@ -33,15 +33,16 @@ namespace Complete
             m_CustomiseTankUI = GameObject.Find("CustomiseTankUI");
         }
 
-        // This function is called when start button is clicked in the customisation screen
+
+        // This function is called when the start button is clicked in the customisation screen.
         public void StartGame() 
         {
              // Create the delays so they only have to be made once.
             m_StartWait = new WaitForSeconds (m_StartDelay);
             m_EndWait = new WaitForSeconds (m_EndDelay);
 
-            // Set the tank colors based on the colors chosen by players
-            SetTankColors();
+            // Set the player colors based on the colors chosen by players in the customisation screen.
+            SetPlayerColors();
 
             SpawnAllTanks();
             SetCameraTargets();
@@ -51,15 +52,18 @@ namespace Complete
 
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
-        }        
-        private void SetTankColors()
+        }  
+
+        // Sets the player color for the game, based on the color chosen by the player.
+        private void SetPlayerColors()
         { 
-            // Go through each color changer and change the tank's color to that of the tank controller, based on the player number.
+            // Go through each tank customisation controller and change the tank's color to that of the tank controller, based on the player number.
             foreach (TankCustomisationController tankController in m_TankControllers)
             {
-                 m_Tanks[tankController.m_PlayerNumber - 1].m_PlayerColor = tankController.m_PlayerColor;
+                 m_Tanks[tankController.m_PlayerNumber - 1].m_PlayerColor = tankController.m_PlayerColor; // (-1 to account for player 1 being indexed at 0 etc)
             }
         }
+
 
         private void SpawnAllTanks()
         {
@@ -73,6 +77,8 @@ namespace Complete
                 m_Tanks[i].Setup();
             }
         }
+
+
         private void SetCameraTargets()
         {
             // Create a collection of transforms the same size as the number of tanks.
@@ -85,10 +91,11 @@ namespace Complete
                 targets[i] = m_Tanks[i].m_Instance.transform;
             }
 
-            // These are the targets the camera should follow.
+            // These are the targets the cameras should follow.
             m_CameraControl1.m_Targets = targets;
             m_CameraControl2.m_Targets = targets;
         }
+
 
         // This is called from start and will run each phase of the game one after another.
         private IEnumerator GameLoop ()
@@ -116,6 +123,7 @@ namespace Complete
             }
         }
 
+
         private IEnumerator RoundStarting ()
         {
             // As soon as the round starts reset the tanks and make sure they can't move.
@@ -132,6 +140,7 @@ namespace Complete
             // Wait for the specified length of time until yielding control back to the game loop.
             yield return m_StartWait;
         }
+
 
         private IEnumerator RoundPlaying ()
         {

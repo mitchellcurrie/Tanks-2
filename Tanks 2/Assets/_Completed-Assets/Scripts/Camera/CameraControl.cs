@@ -23,16 +23,18 @@ namespace Complete
         private void Awake ()
         {
             m_Camera = GetComponentInChildren<Camera> ();
-            m_CamerasInSplitScreenMode = false;
         }
 
         private void Start ()
         {
+            // Set split screen mode to fale initially
+            m_CamerasInSplitScreenMode = false;
+            
             // Turn off camera 2 at the start - since splitscreen mode is disabled at the beginning of a game.
             if (m_PlayerToFollow == 2)
-                {
-                    m_Camera.gameObject.SetActive(false);
-                }
+            {
+                m_Camera.gameObject.SetActive(false);
+            }
         }
 
         private void FixedUpdate ()
@@ -107,7 +109,7 @@ namespace Complete
                     continue;
 
                 // If the current target index equals the assigned player to follow (-1 since player 1 is indexed at 0 etc)
-                if (i == m_PlayerToFollow-1)
+                if (i == m_PlayerToFollow - 1)
                 {
                     // The desired position is the current target's position
                     m_DesiredPosition = m_Targets[i].position;
@@ -117,15 +119,19 @@ namespace Complete
 
         private void CheckDistanceBetweenTargets()
         { 
-            // Check there are 2 targets / tanks
-            if (m_Targets.Length == 2)
+            // Check there are at least 2 tanks / targets
+            if (m_Targets.Length >= 2)
             {
                 // Find the distance between the tanks 
                 float Distance = Vector3.Magnitude(m_Targets[1].position - m_Targets[0].position);
 
                 // Enable split screen mode if the distance is greater than the defined distance, otherwise disable.
                 m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
-            }  
+            } 
+            else
+            {
+                Debug.LogError("Less than 2 targets in m_targets in CameraControl script.");
+            } 
         } 
 
         private void AdjustCameraSizes()
@@ -146,7 +152,6 @@ namespace Complete
                     m_Camera.rect = new Rect(0.5f,0,1,1);
                 }
                 
-                //transform.position = m_Targets[m_PlayerToFollow-1].transform.position;
                 // Set boolean to true to ensure new rects aren't created each frame, only on transitions between standard and split scren modes.
                 m_CamerasInSplitScreenMode = true;
            }
@@ -179,8 +184,6 @@ namespace Complete
             }
 
             m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
-
-            //Debug.Log("Required size: " + requiredSize);
         }
 
 
