@@ -128,10 +128,6 @@ namespace Complete
                 // Enable split screen mode if the distance is greater than the defined distance, otherwise disable.
                 m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
             } 
-            else
-            {
-                Debug.LogError("Less than 2 targets in m_targets in CameraControl script.");
-            } 
         } 
 
         private void AdjustCameraSizes()
