@@ -35,7 +35,7 @@ public class TankCustomisationController : MonoBehaviour {
 
 		}
 
-		float screenWidthBuffer = 4.7f;
+		float screenWidthBuffer = 4.25f;
 		float screenHeightBuffer = 2.5f;
 
 		if (m_PlayerNumber == 1)
