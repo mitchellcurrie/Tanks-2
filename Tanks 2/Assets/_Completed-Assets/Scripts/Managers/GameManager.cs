@@ -22,14 +22,14 @@ namespace Complete
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-        private ColorChanger [] m_TankColorChangers; // The color changer scripts on the tanks used for the customisation screen.
+        private TankCustomisationController [] m_TankControllers; // The color changer scripts on the tanks used for the customisation screen.
         private GameObject m_CustomiseTankUI;       // Keeps track of the game object that stores all of the tank customisation UI.
 
 
         private void Awake() 
         {   
             // Find the 2 color changer objects and the tank customisation UI and store in member variables.
-            m_TankColorChangers = FindObjectsOfType<ColorChanger>();
+            m_TankControllers = FindObjectsOfType<TankCustomisationController>();
             m_CustomiseTankUI = GameObject.Find("CustomiseTankUI");
         }
 
@@ -54,9 +54,9 @@ namespace Complete
         private void SetTankColors()
         { 
             // Go through each color changer and change the tank's color to that of the color changer, based on the player number.
-            foreach (ColorChanger colChanger in m_TankColorChangers)
+            foreach (TankCustomisationController tankController in m_TankControllers)
             {
-                 m_Tanks[colChanger.m_PlayerNumber - 1].m_PlayerColor = colChanger.m_TankColor;
+                 m_Tanks[tankController.m_PlayerNumber - 1].m_PlayerColor = tankController.m_TankColor;
             }
         }
 
