@@ -58,16 +58,24 @@ public class TankCustomisationController : MonoBehaviour {
 			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - (Screen.width / screenWidthBuffer),Screen.height / screenHeightBuffer,5));
 		}
 
-		if (Screen.width >= 1000f)
+
+		/////   TANK SCALE    //////
+
+		// Scale the tank models based on the screen size.
+		// Default scalar is 1.
+		float scalar = 1.0f;
+
+		// If large screen...
+		if (Screen.width >= 1000)
 		{
-			float scalar = 1000f / Screen.width;
-			gameObject.transform.localScale = new Vector3(scalar,scalar,scalar);
-		}
-		else
-		{
-			gameObject.transform.localScale = new Vector3(1,1,1);
+			// Change the scalar based on screen width
+			float w = Screen.width;
+			scalar = 900.0f / w;
 		}
 
+		// Scale the tank based on the scalar
+		gameObject.transform.localScale = new Vector3(scalar,scalar,scalar);
+		
 
 		/////   TANK COLOR    //////
 
