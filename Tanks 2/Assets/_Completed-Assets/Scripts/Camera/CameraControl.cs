@@ -16,8 +16,8 @@ namespace Complete
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
-        private bool m_SplitScreenEnabled;              // Keeps track of whether splitscreen mode is enabled
-        private bool m_CamerasInSplitScreenMode;        // Keeps track of whether the cameras are currently set in split screen mode
+        private bool m_SplitScreenEnabled;              // Keeps track of whether splitscreen mode is enabled.
+        private bool m_CamerasInSplitScreenMode;        // Keeps track of whether the cameras are currently set in split screen mode.
         
 
         private void Awake ()
@@ -25,9 +25,10 @@ namespace Complete
             m_Camera = GetComponentInChildren<Camera> ();
         }
 
+
         private void Start ()
         {
-            // Set split screen mode to fale initially
+            // Set split screen mode to fale initially.
             m_CamerasInSplitScreenMode = false;
             
             // Turn off camera 2 at the start - since splitscreen mode is disabled at the beginning of a game.
@@ -36,6 +37,7 @@ namespace Complete
                 m_Camera.gameObject.SetActive(false);
             }
         }
+
 
         private void FixedUpdate ()
         {
@@ -55,7 +57,7 @@ namespace Complete
 
         private void Move ()
         {
-            // If split screen mode is enabled, focus on the assigned target player, otherwise find the average position of all targets
+            // If split screen mode is enabled, focus on the assigned target player, otherwise find the average position of all targets.
             if (m_SplitScreenEnabled)
             {
                 // Find the player position of the assigned target.
@@ -70,6 +72,7 @@ namespace Complete
             // Smoothly transition to that position.
             transform.position = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
         }
+
 
         private void FindAveragePosition ()
         {
@@ -99,6 +102,7 @@ namespace Complete
             m_DesiredPosition = averagePos;
         }
 
+
         private void FindPlayerPosition ()
         {
             // Go through targets
@@ -117,6 +121,7 @@ namespace Complete
             }
         }
 
+
         private void CheckDistanceBetweenTargets()
         { 
             // Check there are at least 2 tanks / targets
@@ -129,6 +134,7 @@ namespace Complete
                 m_SplitScreenEnabled = Distance > m_SplitScreenDistance;
             } 
         } 
+
 
         private void AdjustCameraSizes()
         {
@@ -167,6 +173,7 @@ namespace Complete
                 m_CamerasInSplitScreenMode = false;
            }
         }
+
 
         private void Zoom ()
         {
@@ -219,6 +226,7 @@ namespace Complete
 
             return size;
         }
+
 
         public void SetStartPositionAndSize ()
         {

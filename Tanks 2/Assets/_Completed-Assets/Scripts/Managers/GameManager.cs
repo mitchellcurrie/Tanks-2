@@ -47,7 +47,7 @@ namespace Complete
             SpawnAllTanks();
             SetCameraTargets();
 
-            // Deactivate the tank customisation UI
+            // Deactivate the tank customisation UI.
             if (m_CustomiseTankUI)
             {
                  m_CustomiseTankUI.gameObject.SetActive(false);
@@ -61,6 +61,7 @@ namespace Complete
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }  
+
 
         // Sets the player color for the game, based on the color chosen by the player.
         private void SetPlayerColors()
