@@ -48,7 +48,15 @@ namespace Complete
             SetCameraTargets();
 
             // Deactivate the tank customisation UI
-            m_CustomiseTankUI.gameObject.SetActive(false);
+            if (m_CustomiseTankUI)
+            {
+                 m_CustomiseTankUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("Customise Tank UI not found by game manager.");
+            }
+           
 
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());

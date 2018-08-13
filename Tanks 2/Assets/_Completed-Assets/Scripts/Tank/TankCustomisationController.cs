@@ -58,6 +58,16 @@ public class TankCustomisationController : MonoBehaviour {
 			gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - (Screen.width / screenWidthBuffer),Screen.height / screenHeightBuffer,5));
 		}
 
+		if (Screen.width >= 1000f)
+		{
+			float scalar = 1000f / Screen.width;
+			gameObject.transform.localScale = new Vector3(scalar,scalar,scalar);
+		}
+		else
+		{
+			gameObject.transform.localScale = new Vector3(1,1,1);
+		}
+
 
 		/////   TANK COLOR    //////
 
