@@ -8,7 +8,7 @@ namespace Complete
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
         public int m_PlayerToFollow;                    // Reference to the player to be followed in split screen mode.
-        public float m_SplitScreenZoomSize = 18f;        // Set the level of zoom on the targets when in splitscreen mode.
+        public float m_SplitScreenZoomSize = 16f;        // Set the level of zoom on the targets when in splitscreen mode.
         public float m_SplitScreenDistance = 50f;       // Set the distance required between the targets to enable split screen mode.
         [HideInInspector] public Transform[] m_Targets; // All the targets the camera needs to encompass.
         
