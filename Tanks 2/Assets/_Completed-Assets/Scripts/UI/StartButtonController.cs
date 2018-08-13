@@ -13,6 +13,7 @@ public class StartButtonController : MonoBehaviour {
 	}
 	
 
+	// This function is called when the start button is clicked in the customisation screen.
 	public void PlaySound()
 	{
 		// If the audio source component has been stored in the member variable...

@@ -112,8 +112,8 @@ namespace Complete
                 if (!m_Targets[i].gameObject.activeSelf)
                     continue;
 
-                // If the current target index equals the assigned player to follow (-1 since player 1 is indexed at 0 etc)
-                if (i == m_PlayerToFollow - 1)
+                // If the current target index equals the assigned player to follow 
+                if (i == m_PlayerToFollow - 1) // (-1 since player 1 is indexed at 0 etc)
                 {
                     // The desired position is the current target's position
                     m_DesiredPosition = m_Targets[i].position;
@@ -142,15 +142,16 @@ namespace Complete
            if (m_SplitScreenEnabled && !m_CamerasInSplitScreenMode)
            {
                 // Adjust the viewport rect of the cameras 
-                // Player 1 cam to the left of the screen
                 if (m_PlayerToFollow == 1)
                 {
+                     // Player 1 cam to the left of the screen
                     m_Camera.rect = new Rect(0,0,0.5f,1);
                 }
-                // Activate Player 2 cam and set to the right of the screen
                 else if (m_PlayerToFollow == 2)
                 {
+                    // Activate Player 2 cam
                     m_Camera.gameObject.SetActive(true);
+                    // Set camera to the right of the screen
                     m_Camera.rect = new Rect(0.5f,0,1,1);
                 }
                 

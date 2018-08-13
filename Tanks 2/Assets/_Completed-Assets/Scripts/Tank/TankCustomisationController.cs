@@ -89,9 +89,10 @@ public class TankCustomisationController : MonoBehaviour {
 		// Get the value from the axis
 		float rotateAxisValue = Input.GetAxis (m_RotateAxisName);
 
-		// If the player is holding down either axis button, spin the tank around the y axis - direction is based on which axis button is pressed.
+		// If the player is holding down either axis button... 
 		if (rotateAxisValue != 0)
 		{
+			// Spin the tank around the y axis - direction is based on which axis button is pressed.
 			gameObject.transform.Rotate(new Vector3(0,1,0), rotateAxisValue*3);  // *3 added for faster rotation
 		}
 	}
@@ -102,14 +103,16 @@ public class TankCustomisationController : MonoBehaviour {
 		// Get the value of the color axis - determines whether the player is pressing up or down.
 		float colorAxisValue = Input.GetAxis (m_ColorAxisName);
 
-		// If the player is pressing down (negative on the axis), decrease the hue.
+		// If the player is pressing down (negative on the axis)...
 		if (colorAxisValue < 0)
 		{
+			// Decrease the hue.
 			m_TankColorHue -= 0.005f;
 		}
-		// If the player is pressing up (positive on the axis), increase the hue.
+		// If the player is pressing up (positive on the axis)...
 		else if (colorAxisValue > 0)
 		{
+			// Increase the hue.
 			m_TankColorHue += 0.005f;
 		}
 

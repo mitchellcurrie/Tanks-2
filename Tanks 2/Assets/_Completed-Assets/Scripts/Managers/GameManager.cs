@@ -57,7 +57,6 @@ namespace Complete
                 Debug.LogError("Customise Tank UI not found by game manager.");
             }
            
-
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }  
